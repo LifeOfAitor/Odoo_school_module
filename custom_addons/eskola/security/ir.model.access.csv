@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_eskola_ikasleak,access.eskola.ikasleak,model_eskola_ikasleak,base.group_user,1,1,1,1
+access_eskola_cycle,access.eskola.cycle,model_eskola_cycle,base.group_user,1,1,1,1
+access_eskola_class,access.eskola.class,model_eskola_class,base.group_user,1,1,1,1
+access_eskola_teacher,access.eskola.teacher,model_eskola_teacher,base.group_user,1,1,1,1
+access_eskola_equipment,access.eskola.equipment,model_eskola_equipment,base.group_user,1,1,1,1
+access_eskola_attendance,access.eskola.attendance,model_eskola_attendance,base.group_user,1,1,1,1
+access_eskola_subject,access.eskola.subject,model_eskola_subject,base.group_user,1,1,1,1
+access_eskola_grade,access.eskola.grade,model_eskola_grade,base.group_user,1,1,1,1
+access_eskola_incident,access.eskola.incident,model_eskola_incident,base.group_user,1,1,1,1

@@ -1,0 +1,357 @@
+<odoo>
+  <data>
+    <record id="view_eskola_form" model="ir.ui.view">
+      <field name="name">eskola.form</field>
+      <field name="model">eskola.ikasleak</field>
+      <field name="arch" type="xml">
+        <form string="Eskola">
+          <sheet>
+            <group col="2">
+              <field name="image" widget="image" height="128" width="128"/>
+              <field name="name"/>
+              <field name="surname"/>
+              <field name="student_age"/>
+              <field name="student_day_of_birth"/>
+              <field name="student_gender"/>
+              <field name="cycle_id"/>
+              <field name="class_id"/>
+            </group>
+            <notebook>
+              <page string="Ekipoa">
+                <field name="equipment_ids" label="Ikaslearen ekipoa" widget="many2many_tags"/>
+              </page>
+              <page string="Faltak">
+                <field name="attendance_ids" nolabel="1"/>
+              </page>
+              <page string="Notak">
+                <field name="grade_ids" nolabel="1"/>
+              </page>
+            </notebook>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record id="view_eskola_list" model="ir.ui.view">
+      <field name="name">eskola.list</field>
+      <field name="model">eskola.ikasleak</field>
+      <field name="arch" type="xml">
+        <list string="Ikasleak">
+          <field name="name"/>
+          <field name="surname"/>
+          <field name="student_age"/>
+          <field name="student_day_of_birth"/>
+          <field name="student_gender"/>
+          <field name="cycle_id"/>
+          <field name="class_id"/>
+        </list>
+      </field>
+    </record>
+
+    <record id="view_eskola_kanban" model="ir.ui.view">
+      <field name="name">eskola.kanban</field>
+      <field name="model">eskola.ikasleak</field>
+      <field name="arch" type="xml">
+        <kanban>
+          <field name="image"/>
+          <field name="name"/>
+          <field name="student_age"/>
+          <field name="student_gender"/>
+          <templates>
+            <t t-name="card">
+              <div class="oe_kanban_global_click o_kanban_record_has_image_fill">
+                <div class="o_kanban_image">
+                  <field name="image" widget="image" alt="Ikaslearen argazkia" width="128" height="128"/>
+                </div>
+                <div class="o_kanban_details">
+                  <strong><t t-esc="record.name.value"/></strong>
+                  <div><t t-esc="record.student_age.value"/></div>
+                  <div><t t-esc="record.student_gender.value"/></div>
+                </div>
+              </div>
+            </t>
+          </templates>
+        </kanban>
+      </field>
+    </record>
+
+    <record id="view_eskola_teacher_list" model="ir.ui.view">
+      <field name="name">eskola.teacher.list</field>
+      <field name="model">eskola.teacher</field>
+      <field name="arch" type="xml">
+        <list string="Irakasleak">
+          <field name="name"/>
+          <field name="surname"/>
+        </list>
+      </field>
+    </record>
+
+    <record id="view_eskola_teacher_form" model="ir.ui.view">
+      <field name="name">eskola.teacher.form</field>
+      <field name="model">eskola.teacher</field>
+      <field name="arch" type="xml">
+        <form string="Irakasleak">
+          <sheet>
+            <group>
+              <field name="image" widget="image" height="128" width="128"/>
+              <field name="name"/>
+              <field name="surname"/>
+              <field name="user_id"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+    
+    <record id="view_eskola_cycle_list" model="ir.ui.view">
+      <field name="name">eskola.cycle.list</field>
+      <field name="model">eskola.cycle</field>
+      <field name="arch" type="xml">
+        <list string="Zikloak">
+          <field name="name"/>
+        </list>
+      </field>
+    </record>
+      <record id="view_eskola_cycle_form" model="ir.ui.view">
+        <field name="name">eskola.cycle.form</field>
+        <field name="model">eskola.cycle</field>
+        <field name="arch" type="xml">
+          <form string="Zikloa">
+            <sheet>
+              <group>
+                <field name="name"/>
+              </group>
+              <notebook>
+                <page string="Ikasgaiak">
+                  <field name="subject_ids">
+                    <list editable="bottom">
+                      <field name="name"/>
+                    </list>
+                  </field>
+                </page>
+              </notebook>
+            </sheet>
+          </form>
+        </field>
+      </record>
+
+    <record id="view_eskola_class_list" model="ir.ui.view">
+      <field name="name">eskola.class.list</field>
+      <field name="model">eskola.class</field>
+      <field name="arch" type="xml">
+        <list string="Gelak">
+          <field name="name"/>
+          <field name="cycle_id"/>
+          <field name="location_id"/>
+        </list>
+      </field>
+    </record>
+
+    <record id="view_eskola_class_form" model="ir.ui.view">
+      <field name="name">eskola.class.form</field>
+      <field name="model">eskola.class</field>
+      <field name="arch" type="xml">
+        <form string="Gelak">
+          <sheet>
+            <group>
+              <field name="name"/>
+              <field name="student_number"/>
+              <field name="cycle_id"/>
+              <field name="location_id"/>
+            </group>
+            <notebook>
+              <page string="Ikasleak">
+                <field name="students_ids" label="Ikaslearen ekipoa" widget="many2many_tags"/>
+              </page>
+            </notebook>
+            <notebook>
+              <page string="Ekipoa">
+                <field name="equipment_ids" label="Ikaslearen ekipoa" widget="many2many_tags"/>
+              </page>
+            </notebook>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record id="view_eskola_equipment_list" model="ir.ui.view">
+      <field name="name">eskola.equipment.list</field>
+      <field name="model">eskola.equipment</field>
+      <field name="arch" type="xml">
+        <list string="Ekipoa">
+          <field name="name"/>
+          <field name="product_id"/>
+          <field name="equipment_type"/>
+        </list>
+      </field>
+    </record>
+
+    <record id="view_eskola_equipment_form" model="ir.ui.view">
+      <field name="name">eskola.equipment.form</field>
+      <field name="model">eskola.equipment</field>
+      <field name="arch" type="xml">
+        <form string="Ekipoa">
+          <sheet>
+            <group>
+              <field name="name"/>
+              <field name="product_id"/>
+              <field name="equipment_type"/>
+              <field name="class_id"/>
+              <field name="student_id"/>
+            </group>
+            <group>
+              <field name="notes"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record id="view_eskola_attendance_list" model="ir.ui.view">
+      <field name="name">eskola.attendance.list</field>
+      <field name="model">eskola.attendance</field>
+      <field name="arch" type="xml">
+        <list string="Faltak">
+          <field name="date"/>
+          <field name="student_id"/>
+          <field name="motive"/>
+          <field name="note"/>
+        </list>
+      </field>
+    </record>
+
+    <record id="view_eskola_attendance_form" model="ir.ui.view">
+      <field name="name">eskola.attendance.form</field>
+      <field name="model">eskola.attendance</field>
+      <field name="arch" type="xml">
+        <form string="Falta">
+          <sheet>
+            <group>
+              <field name="date"/>
+              <field name="student_id"/>
+              <field name="motive"/>
+              <field name="note"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record id="view_eskola_grade_list" model="ir.ui.view">
+      <field name="name">eskola.grade.list</field>
+      <field name="model">eskola.grade</field>
+      <field name="arch" type="xml">
+        <list string="Notak">
+          <field name="student_id"/>
+          <field name="cycle_id"/>
+          <field name="subject_id"/>
+          <field name="mark"/>
+        </list>
+      </field>
+    </record>
+
+    <record id="view_eskola_grade_form" model="ir.ui.view">
+      <field name="name">eskola.grade.form</field>
+      <field name="model">eskola.grade</field>
+      <field name="arch" type="xml">
+        <form string="Nota">
+          <sheet>
+            <group>
+              <field name="student_id"/>
+              <field name="cycle_id" invisible="1"/>
+              <field name="subject_id" domain="[('cycle_id', '=', cycle_id)]"/>
+              <field name="mark"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+    <record id="view_eskola_incident_list" model="ir.ui.view">
+      <field name="name">eskola.incident.list</field>
+      <field name="model">eskola.incident</field>
+      <field name="arch" type="xml">
+        <list string="Inzidentziak">
+          <field name="equipment_id"/>
+          <field name="status"/>
+          <field name="note"/>
+        </list>
+      </field>
+    </record>
+
+    <record id="view_eskola_incident_form" model="ir.ui.view">
+      <field name="name">eskola.incident.form</field>
+      <field name="model">eskola.incident</field>
+      <field name="arch" type="xml">
+        <form string="Inzidentzia">
+          <sheet>
+            <group>
+              <field name="equipment_id"/>
+              <field name="status"/>
+            </group>
+            <group>
+              <field name="note"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+    <record id="action_view_students" model="ir.actions.act_window">
+      <field name="name">Ikasleak</field>
+      <field name="res_model">eskola.ikasleak</field>
+      <field name="view_mode">kanban,list,form</field>
+    </record>
+
+    <record id="action_view_cycles" model="ir.actions.act_window">
+      <field name="name">Zikloak</field>
+      <field name="res_model">eskola.cycle</field>
+      <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_view_classes" model="ir.actions.act_window">
+      <field name="name">Gelak</field>
+      <field name="res_model">eskola.class</field>
+      <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_view_teachers" model="ir.actions.act_window">
+      <field name="name">Irakasleak</field>
+      <field name="res_model">eskola.teacher</field>
+      <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_view_equipment" model="ir.actions.act_window">
+      <field name="name">Ekipo lista</field>
+      <field name="res_model">eskola.equipment</field>
+      <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_view_incidents" model="ir.actions.act_window">
+      <field name="name">Inzidentziak</field>
+      <field name="res_model">eskola.incident</field>
+      <field name="view_mode">list,form</field>
+    </record>
+    <record id="action_view_attendance" model="ir.actions.act_window">
+      <field name="name">Asistentziak</field>
+      <field name="res_model">eskola.attendance</field>
+      <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_view_grades" model="ir.actions.act_window">
+      <field name="name">Notak jarri</field>
+      <field name="res_model">eskola.grade</field>
+      <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_school" name="Eskola Kudeaketa" sequence="10" action="action_view_students" groups="base.group_user"/>
+    <menuitem id="menu_students" name="Ikasle Kudeaketa" parent="menu_school" action="action_view_students" sequence="1" groups="base.group_user"/>
+      <menuitem id="menu_students_list" name="Ikasleak" parent="menu_students" action="action_view_students" sequence="10" groups="base.group_user"/>
+      <menuitem id="menu_attendance" name="Faltak" parent="menu_students" action="action_view_attendance" sequence="11" groups="base.group_user"/>
+      <menuitem id="menu_grades" name="Notak jarri" parent="menu_students" action="action_view_grades" sequence="12" groups="base.group_user"/>
+    <menuitem id="menu_cycles" name="Zikloak" parent="menu_school" action="action_view_cycles" sequence="2" groups="base.group_user"/>
+    <menuitem id="menu_classes" name="Gelak" parent="menu_school" action="action_view_classes" sequence="3" groups="base.group_user"/>
+    <menuitem id="menu_teachers" name="Irakasleak" parent="menu_school" action="action_view_teachers" sequence="4" groups="base.group_user"/>
+    <menuitem id="menu_equipment" name="Ekipoa" parent="menu_school" sequence="5" groups="base.group_user"/>
+    <menuitem id="menu_equipment_list" name="Ekipo lista" parent="menu_equipment" action="action_view_equipment" sequence="51" groups="base.group_user"/>
+    <menuitem id="menu_incidents" name="Inzidentziak" parent="menu_equipment" action="action_view_incidents" sequence="52" groups="base.group_user"/>
+  </data>
+</odoo>
