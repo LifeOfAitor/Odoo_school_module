@@ -132,6 +132,7 @@
       <field name="arch" type="xml">
         <list string="Faltak">
           <field name="date"/>
+          <field name ="hours"/>
           <field name="ikasle_id"/>
           <field name="motive"/>
           <field name="note"/>
