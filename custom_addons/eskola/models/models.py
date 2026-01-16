@@ -10,7 +10,7 @@ class EskolaIkasle(models.Model):
 
     name = fields.Char(string="Izena", required=True)
     surname = fields.Char(string="Abizena", required=True)
-    ikasle_age = fields.Integer(string="Adina", compute='_compute_ikasle_age', store=True)
+    ikasle_age = fields.Integer(string="Adina", compute='_compute_ikasle_age')
     image = fields.Image(string="Argazkia")
     ikasle_day_of_birth = fields.Date(string="Jaiotze data", required=True)
     ikasle_gender = fields.Selection(([("m", "Mutila"), ("e", "Emakumea"), ("b", "Bestea")]), string="Generoa")
