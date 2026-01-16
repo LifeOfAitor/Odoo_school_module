@@ -329,7 +329,7 @@ class EskolaNota(models.Model):
     # Ikasle + ikasgai errepikatzen ez direla ziurtatzeko
     _nota_ikasle_unique = models.Constraint(
         'unique(ikasle_id, ikasgai_id)',
-        'Ikasle honek dagoeneko nota bat du ikasgai honetarako.',
+        'Ezin dira notetan ikasgai errepikatuak egon.',
     )
     # Noten balioa 0 eta 10 artean dagoela ziurtatzeko
     _nota_ikasle_rango = models.Constraint(
