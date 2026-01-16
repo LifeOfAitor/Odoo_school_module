@@ -1,10 +1,10 @@
 {
-    'name': "eskola",
+    'name': "Eskola",
 
     'summary': "Eskola kudeaketa modulua",
 
     'description': """
-Eskola kudeatzeko modulua izango da, non ikasleak, irakasleak eta ikastaroak kudeatu ahal izango diren.
+        Eskola kudeatzeko modulua izango da, non ikasleak, irakasleak eta ikastaroak kudeatu ahal izango diren.
     """,
 
     'author': "Aitor",
@@ -14,21 +14,17 @@ Eskola kudeatzeko modulua izango da, non ikasleak, irakasleak eta ikastaroak kud
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'stock'],
+    'depends': ['base', 'stock', 'purchase'],
 
     # always loaded
     'data': [
-        'data/groups.xml',
+        # Taldeen fitxategia
+        'security/groups.xml',
         'security/ir.model.access.csv',
         'views/views.xml',
         'views/templates.xml',
-    ],
-    # only loaded in demonstration mode
-    'demo': [
-        #'demo/demo.xml',
     ],
     'installable': True,
     'application': True,
     'auto_install': False,
 }
-

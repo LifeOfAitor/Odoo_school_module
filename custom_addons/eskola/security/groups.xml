@@ -1,0 +1,15 @@
+<odoo>
+  <data noupdate="1">
+
+    <!-- Irakasle taldea -->
+    <record id="eskola.group_eskola_irakasle" model="res.groups">
+      <field name="name">Irakaslea</field>
+    </record>
+
+    <!-- Mantenimendu taldea -->
+    <record id="eskola.group_eskola_mantenimendu" model="res.groups">
+      <field name="name">Mantenimendua</field>
+    </record>
+
+  </data>
+</odoo>
