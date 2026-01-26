@@ -3,7 +3,7 @@ import logging
 from datetime import date
 
 
-# Ikasle modeloa
+# Ikasle modeloa, ikaslearen datuak gordeko dira hemen
 class EskolaIkasle(models.Model):
     _name = "eskola.ikasle"
     _description = "Eskolako Ikasleak"
@@ -21,6 +21,7 @@ class EskolaIkasle(models.Model):
     falta_ids = fields.One2many("eskola.falta", "ikasle_id", string="Faltak")
     nota_ids = fields.One2many("eskola.nota", "ikasle_id", string="Notak")
 
+    # Ikaslearen adina kalkulatzen du jaiotze data ezarriaren arabera
     @api.depends('ikasle_day_of_birth')
     def _compute_ikasle_age(self):
         for record in self:
@@ -28,7 +29,6 @@ class EskolaIkasle(models.Model):
                 today = date.today()
                 birth_date = record.ikasle_day_of_birth
                 age = today.year - birth_date.year
-                # Adjust if birthday hasn't occurred yet this year
                 if today.month < birth_date.month or (today.month == birth_date.month and today.day < birth_date.day):
                     age -= 1
                 record.ikasle_age = age
@@ -36,7 +36,7 @@ class EskolaIkasle(models.Model):
                 record.ikasle_age = 0
 
 
-# Ziklo modeloa
+# Ziklo modeloa, ikasketa zikloak gordeko dira hemen
 class EskolaZiklo(models.Model):
     _name = "eskola.ziklo"
     _description = "Eskola Zikloak"
@@ -46,7 +46,7 @@ class EskolaZiklo(models.Model):
     ikasgai_ids = fields.One2many("eskola.ikasgai", "ziklo_id", string="Ikasgaiak")
 
 
-# Gela modeloa
+# Gela modeloa, eskola gelak gordeko dira hemen eta gelako ikasleak bai ekipoak lotuko eta erakutsiko dira
 class EskolaGela(models.Model):
     _name = "eskola.gela"
     _description = "Eskola Gelak"
@@ -71,7 +71,7 @@ class EskolaGela(models.Model):
             record.ikasle_number = len(record.ikasle_ids)
 
 
-# Irakasle modeloa
+# Irakasle modeloa, irakasleen datuak gordeko dira hemen
 class EskolaIrakasle(models.Model):
     _name = "eskola.irakasle"
     _description = "Irakasleak"
@@ -79,9 +79,9 @@ class EskolaIrakasle(models.Model):
     image = fields.Image(string="Argazkia")
     name = fields.Char(string="Izena", required=True)
     surname = fields.Char(string="Abizena", required=True)
-    user_id = fields.Many2one('res.users', string="User")
+    user_id = fields.Many2one('res.users', string="User") #irakaslea, irakasle horren erabiltzailearekin lotzeko
 
-    # Irakasle berria sortzerakoan irakasle taldean automatikoki sartzeko
+    # Irakasle berria sortzerakoan edo editatzerakoan irakasle taldean automatikoki sartzeko funtzioak
     @api.model
     def create(self, vals):
         record = super().create(vals)
@@ -103,7 +103,7 @@ class EskolaIrakasle(models.Model):
                 })
 
 
-# Mantenimendu modeloa
+# Mantenimendu modeloa, mantenimendu langileen datuak gordeko dira hemen
 class EskolaMantenimendu(models.Model):
     _name = "eskola.mantenimendu"
     _description = "Mantenimendu"
@@ -111,7 +111,7 @@ class EskolaMantenimendu(models.Model):
     image = fields.Image(string="Argazkia")
     name = fields.Char(string="Izena", required=True)
     surname = fields.Char(string="Abizena", required=True)
-    user_id = fields.Many2one('res.users', string="User")
+    user_id = fields.Many2one('res.users', string="User") #mantenimendu 'user', mantenimendu horren erabiltzailearekin lotzeko
 
     # Mantenimendu berria sortzerakoan mantenimendu taldean automatikoki sartzeko
     @api.model
@@ -135,7 +135,9 @@ class EskolaMantenimendu(models.Model):
                 })
 
 
-# Ekipo modeloa
+# Ekipo modeloa, modelo astuna eta konplexua da, stock mugimenduak kudeatzen dituena
+# Ekipoak sortzerakoan, editatzerakoan eta ezabatzekorako stock mugimenduak sortzen ditu, ezarritako gelaren (kokalekuaren) arabera
+# Ekipo bakoitza biltegiko produktuekin lotuta dago
 class EskolaEkipo(models.Model):
     _name = "eskola.ekipo"
     _description = "Eskola Ekipoa"
@@ -148,18 +150,21 @@ class EskolaEkipo(models.Model):
     ikasle_id = fields.Many2one("eskola.ikasle", string="Ikaslea", domain="[('gela_id', '=', gela_id)]", help="Ikasle assigned to this ekipo")
     inzidentzia_ids = fields.One2many("eskola.inzidentzia", "ekipo_id", string="Inzidentziak")
 
+    # Biltegi nagusiaren kokalekua lortzeko funtzio laguntzailea
     def _get_main_warehouse_location(self):
         """Get the WH/Biltegi nagusia location"""
         location = self.env['stock.location'].search([
             ('complete_name', '=', 'WH/Biltegi nagusia')
         ], limit=1)
         if not location:
-            # Try alternative search
+            # Bilaketa alternatiboa, izen hutsean
             location = self.env['stock.location'].search([
                 ('name', '=', 'Biltegi nagusia')
             ], limit=1)
         return location
 
+    # Stock mugimenduak sortzeko funtzio laguntzailea barne mugimenduak kudeatzen dituena
+    # Guk ezarritako kokalekuen artean mugimenduak sortzen ditu, produktua eta kantitatea erabiliz eta ezarritako gelako kokalekuaren arabera
     def _create_stock_movement(self, source_location_id, dest_location_id, product_id, quantity=1):
         """Create internal stock movement"""
         picking_type = self.env['stock.picking.type'].search([
@@ -175,7 +180,6 @@ class EskolaEkipo(models.Model):
         if not picking_type:
             raise ValueError("No internal picking type found. Please configure warehouse properly.")
 
-        # Create picking first
         picking_vals = {
             'picking_type_id': picking_type.id,
             'location_id': source_location_id,
@@ -183,7 +187,7 @@ class EskolaEkipo(models.Model):
         }
         picking = self.env['stock.picking'].create(picking_vals)
 
-        # Create stock move separately
+        # Stock mugimendua sortu
         move_vals = {
             'product_id': product_id,
             'product_uom_qty': quantity,
@@ -194,14 +198,14 @@ class EskolaEkipo(models.Model):
         }
         move = self.env['stock.move'].create(move_vals)
         
-        # Confirm and assign the picking
+        # Mugimendua konfirmatu eta esleitu
         picking.action_confirm()
         picking.action_assign()
         
-        # Validate the picking
+        # Mugimendua balidatu
         result = picking.button_validate()
         
-        # If button_validate returns an action (wizard), skip it and directly set state
+        # Egoera 'done' ezarri baldin bada, esleitu
         if not result:
             picking.state = 'done'
 
@@ -209,7 +213,7 @@ class EskolaEkipo(models.Model):
 
     @api.model
     def create(self, vals):
-        """Override create to move equipment from main warehouse to classroom"""
+        """Mugimendua sortu biltegi nagusitik gelara (gelaren kokalekua) ekipoa sortzerakoan"""
         record = super().create(vals)
         
         if record.gela_id and record.gela_id.location_id and record.product_id:
@@ -224,18 +228,16 @@ class EskolaEkipo(models.Model):
                     logging.info(f"Stock movement created for equipment {record.name} from main warehouse to {record.gela_id.name}")
                 except Exception as e:
                     logging.error(f"Error creating stock movement: {e}")
-                    # Don't block the creation if stock movement fails
         
         return record
 
     def write(self, vals):
-        """Override write to move equipment when classroom changes"""
+        """Mugimendua sortu biltegi nagusitik gelara (gelaren kokalekua) ekipoa editatzerakoan, adibidez, gela aldatzerakoan"""
         for record in self:
             old_gela_id = record.gela_id
             
             result = super(EskolaEkipo, record).write(vals)
             
-            # If gela_id changed and both old and new gela have locations
             if 'gela_id' in vals and old_gela_id:
                 new_gela = self.env['eskola.gela'].browse(vals['gela_id'])
                 
@@ -255,7 +257,7 @@ class EskolaEkipo(models.Model):
         return super().write(vals)
 
     def unlink(self):
-        """Override unlink to return equipment to main warehouse"""
+        """Mugimendua sortu biltegi nagusitik gelara (gelaren kokalekua) ekipoa ezabatzearakoan ekipoa biltegi nagusira itzultzeko"""
         main_warehouse = self._get_main_warehouse_location()
         
         for record in self:
@@ -273,7 +275,7 @@ class EskolaEkipo(models.Model):
         return super().unlink()
 
 
-# Falta modeloa
+# Falta modeloa, ikasleen faltak gordeko dira hemen, eta ikasle bati egongo da lotuta falta
 class EskolaFalta(models.Model):
     _name = "eskola.falta"
     _description = "Ikasleen Faltak"
@@ -305,7 +307,7 @@ class EskolaFalta(models.Model):
     ]
 
 
-# Ikasgai modeloa
+# Ikasgai modeloa, ikasgaiak gordeko dira hemen eta ziklo bati lotuta egongo dira
 class EskolaIkasgai(models.Model):
     _name = "eskola.ikasgai"
     _description = "Ikasgaiak"
@@ -315,7 +317,7 @@ class EskolaIkasgai(models.Model):
     ziklo_id = fields.Many2one("eskola.ziklo", string="Zikloa", required=True)
 
 
-# Nota modeloa
+# Nota modeloa, ikasleen notak gordeko dira hemen, ikasle bati eta ikasgai bati lotuta egongo dira
 class EskolaNota(models.Model):
     _name = "eskola.nota"
     _description = "Ikasleen Notak"
@@ -337,7 +339,7 @@ class EskolaNota(models.Model):
         'Nota 0 eta 10 artean egon behar da.',
     )
 
-# Inzidentzia modeloa
+# Inzidentzia modeloa, ekipoen inzidentziak gordeko dira hemen, ekipo bati lotuta egongo dira
 class EskolaInzidentzia(models.Model):
     _name = "eskola.inzidentzia"
     _description = "Ekipoen Inzidentziak"
