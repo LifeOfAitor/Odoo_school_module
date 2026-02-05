@@ -1,6 +1,6 @@
 # Eskola - Skolaren Kudeaketa Modulua
 
-Skolaren kudeaketa osoa egiteko modulua. Ikasleak, irakasleak, ikaslearen ekipoa eta mantenimendua kudeatu ahal izango duzu.
+Eskolaren kudeaketa osoa egiteko modulua. Ikasleak, irakasleak, ikaslearen ekipoa eta mantenimendua kudeatu ahal izango duzu.
 
 ## Nola Martxan Jarri
 ```bash
@@ -13,20 +13,20 @@ Skolaren kudeaketa osoa egiteko modulua. Ikasleak, irakasleak, ikaslearen ekipoa
 
 ### Instalazio pausuak
 
-1. **Modulua kopialtu**
+1. **Modulua kopiatu**
    ```
    custom_addons/eskola/ karpeta Odoo-ren custom_addons direktorioan kopialatu
    ```
 
-2. **Modulua aktivatu**
+2. **Modulua aktibatu**
    - Odoo administradorea gisa sartu
    - Aplikazioak > Moduluak > Moduluak ikuspegia
    - "Eskola" bilatu
    - Instalatu botoia sakatu
 
-3. **Biltegi kokalekua konfiguratu**
+3. **Biltegiko kokalekuak konfiguratu**
    - Biltegi-a eta biltegi-aren kokalekuak konfiguratu:
-     - Nagusia: `WH/Biltegi Nagusia` (100 ordenagailuak dituzten)
+     - Nagusia: `WH/Biltegi Nagusia` (100 ordenagailuak ditu adibidez)
      - Gelak: `WH/Gela 1`, `WH/Gela 2`, etab.
 
 4. **Produktua sortu**
@@ -34,7 +34,7 @@ Skolaren kudeaketa osoa egiteko modulua. Ikasleak, irakasleak, ikaslearen ekipoa
 
 ## Erabiltzaile Motak
 
-Moduluak 2 erabiltzaile talde ditu:
+Moduluak 3 erabiltzaile talde ditu:
 
 ### 1. Irakasleak (Irakasle taldea)
 - Ikasleak, gelak eta ikaslearen datuen kudeaketa
@@ -54,6 +54,9 @@ Moduluak 2 erabiltzaile talde ditu:
 - Ekipoen intzidentzia irakurri eta idatzi
 - Ekipoa inzidentzia egoera eguneratu
 
+### 3. Administratzailea
+- Aplikazio osoa kudeatzeko aukera dauka
+
 ## Moduluaren Funtzionamendua
 
 ### 1. Ikasleak (Ikasle-ren Kudeaketa)
@@ -68,7 +71,7 @@ Moduluak 2 erabiltzaile talde ditu:
 **Funtzionalitatea:**
 - Adina automatikoki kalkulatzen da jaiotze dataren arabera
 - Ikasle bakoitza gela bati lotua dago
-- Ikasleari ekipoa eslei daiteke (ordenagailua, pantaila, etab.)
+- Ikasleari ekipoa esleitu daiteke (ordenagailua, pantaila, etab.)
 
 ### 2. Gelak (Aula-ren Kudeaketa)
 
@@ -81,7 +84,7 @@ Moduluak 2 erabiltzaile talde ditu:
 **Funtzionalitatea:**
 - Gelaren ikasle kopurua automatikoki eguneratzen da
 - Gela bakoitzak bere biltegi-kokalekua du
-- Ekipoa gelari eslei daiteke
+- Ekipoa eta ikasleak gelari esleitu daiteke
 
 ### 3. Ekipoa (Ordenagailu eta Pantailen Kudeaketa)
 
@@ -89,8 +92,8 @@ Moduluak 2 erabiltzaile talde ditu:
 - Izena eta deskripzioa
 - Mota (PC edo Pantaila)
 - Produktua
-- Gela (aukerakoa)
-- Ikaslea (aukerakoa, baina gela bereko ikasleen bakarrik)
+- Gela
+- Ikaslea (gela bereko ikasleak bakarrik)
 
 **Automatiko Funtzionalitatea:**
 
@@ -131,18 +134,19 @@ Ekipoa gelari esleitzerakoan:
 - Zikloa (automatikoki beteta)
 
 **Baldintzak:**
-- Ikasle bakoitzak ikasgai bakoitzean nota bakarra izan daiteke
+- Ikasle bakoitzak ikasgai bakoitzean nota bakarra izan dezake
 
 ### 7. Faltak (Ikasleen Prezentziak)
 
 **Eremua:**
 - Data
-- Motoa (Justifikatua / Justifikatu gabea)
+- Mota (Justifikatua / Justifikatu gabea)
 - Oharra (aukerakoa)
 - Ikaslea
+- Orduak
 
 **Baldintzak:**
-- Ikasle bakoitzak data bakoitzean falta bakarra izan daiteke
+- Ikasle bakoitzak data bakoitzean falta bakarra izan dezake
 
 ### 8. Intzidentziak (Ekipoaren Mantenimendua)
 
@@ -196,9 +200,9 @@ Ekipoa gelari esleitzerakoan:
 4. **Automatiko prozesu:**
    - Transferentzia sortzea: Biltegi Nagusitik → Gela 1
    - Transferentzia automatikoki validatu
-   - Biltegian orain: 99 unitaetan
-   - Gela 1ean orain: 1 unitatean
+   - Biltegian orain: 99 unitate
+   - Gela 1ean orain: 1 unitate
 
-5. **Ikasleari eslei**
+5. **Ikasleari esleitu**
    - `Orderagailu-1`-ean `Ikasleak > Josu Perez` aukeratu
    - Gela 1-eko ikasleen bakarrik biltzen dira
