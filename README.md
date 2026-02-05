@@ -202,7 +202,3 @@ Ekipoa gelari esleitzerakoan:
 5. **Ikasleari eslei**
    - `Orderagailu-1`-ean `Ikasleak > Josu Perez` aukeratu
    - Gela 1-eko ikasleen bakarrik biltzen dira
-
-## Laguntza
-
-Arazo edo galdera batengatik, jarri kontaktuan [Aitor](https://zubirimanteo.com/eus/)
